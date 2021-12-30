@@ -1,0 +1,35 @@
+# TODO: Add plex Meta Mannager to this stack, to get better collections.
+
+
+---
+version: "2.1"
+services:
+  tautulli:
+    image: lscr.io/linuxserver/tautulli
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - tautulli_data:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped
+  plex:
+    image: lscr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    volumes:
+      - plex_data:/config
+      #- /path/to/tvseries:/tv
+      #- /path/to/movies:/movies
+    restart: unless-stopped
+volumes:
+  tautulli_data:
+  plex_data:
